@@ -2,22 +2,36 @@
 
 ## Current connection status
 
-The private Site and basic Google registration check are live. This repository now contains the Python backend, Docker configuration, authenticated Site proxy, profile result UI, and validation for the full email-profile flow. The Railway service and Google session have not been configured. No full-profile live test has been performed.
+The private Site and basic Google registration check are live. The Railway project and empty `ghunt-backend` service now exist. The shared server key, exact-address allowlist, domain, Docker settings, and Sites runtime variables are saved. GitHub source `advantageosmain-sudo/GHunt`, branch `master`, is staged. Backend compute has not been started: Railway reports Hobby plan limits but cannot expose the account's remaining credits through the connected tools. Deployment awaits the owner's spending decision. The owner must also add a Google GHunt session directly in Railway. No full-profile live test has been performed.
 
-Connect the installed Railway app to the active ChatGPT conversation so the operator can inspect existing projects, reuse the correct service, configure runtime values, and deploy this repository. Do not create a duplicate service if one already exists. A Railway billing commitment requires owner authorization.
+Reuse the existing resources; do not create another project or service:
+
+- Railway project: `90dd949d-a59e-4a61-b35b-ca10f6d0dfaf`
+- Environment: `cb05a9f4-0fc2-4400-9c3b-00fc120021e5` (`production`)
+- Service: `9b7fa99e-ca30-4503-b968-399be797cc5a` (`ghunt-backend`)
+- Reserved backend origin: `https://ghunt-backend-production.up.railway.app`
+- Private Site: https://ghunt-project-guide.mshipe2022.chatgpt.site
+
+The backend domain is reserved, but an empty service does not serve requests. Sites version 3 has been republished with runtime environment revision 1. The shared key is stored as a secret in Sites and in Railway service variables, never in this repository. Check actual deployment and session status before marking the full profile connection complete.
 
 ## Deployment configuration
 
 - Repository: `advantageosmain-sudo/GHunt`
 - Branch: `master`
 - Repository root: `/`
-- Builder: repository `Dockerfile` (configured by `railway.json`)
+- Builder: `DOCKERFILE`; repository `Dockerfile`, configured through Railway service settings
 - Start command: the image's Gunicorn command
 - Health check: `/health`
 - Port: injected `PORT` (8080 fallback for local use)
 - Replicas: 1; Gunicorn workers: 1; threads: 4
+- Sleep mode: enabled
+- Restart policy: `ON_FAILURE`, maximum 3 retries
 - Public URL: the generated HTTPS `*.up.railway.app` domain
 - No volume is required; session refreshes live in the private container filesystem and results use temporary files deleted after the request.
+
+Railway rejects `railway.json` / `railway.toml` for new services as of this setup. This repository therefore uses the explicit service settings above, saved through the Railway connector. Do not reintroduce the deprecated configuration file. If configuration later needs to be managed in source, use Railway's current Infrastructure as Code workflow and review its plan before applying.
+
+Before the first backend deployment, inspect the staged source and confirm the exact repository spelling above. Applying staged environment changes starts compute; do that only after the spending decision. Source installation access and automatic deployment behavior remain to be verified when applying the first deployment.
 
 The `/health` response proves the server is running, not that Google authentication works. `/v1/status` requires the backend bearer key and returns one of `api_key_missing`, `allowlist_missing`, `google_session_required`, or `configured`. `configured` means session material has the expected shape, not that Google has accepted it.
 
@@ -77,4 +91,4 @@ Existing upstream dependency ranges are preserved. Gunicorn is pinned in `backen
 
 The backend has no browser CORS access. The Site's Worker forwards requests over HTTPS with the server secret. The backend requires an exact address allowlist, permission acknowledgement, bounded JSON, one profile job at a time, and a five-minute interval. Only the email-profile module is exposed; arbitrary shell commands, Drive file IDs, Wi-Fi location searches, and general-purpose URL fetching are not exposed. Session creation is not served through a public login endpoint.
 
-Sources for Railway configuration: https://docs.railway.com/services, https://docs.railway.com/deployments/healthchecks, and https://docs.railway.com/variables.
+Sources for Railway configuration: https://docs.railway.com/services, https://docs.railway.com/deployments/healthchecks, https://docs.railway.com/variables, and https://docs.railway.com/infrastructure-as-code#migrating-from-config-as-code.
