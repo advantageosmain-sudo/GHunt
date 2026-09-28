@@ -40,3 +40,13 @@
 - Deployment `appgdep_6aba8cce95848191a1df419723f07eff` succeeded at 2026-09-28T15:50:46Z. Live URL: https://ghunt-project-guide.mshipe2022.chatgpt.site.
 - Production environment revision remains 0: no backend URL, shared secret, or Google session has been configured. Full profile searches are therefore disabled and explicitly shown as not connected. Basic lookup remains available.
 - External blocker remains Railway account access in this conversation, followed by the owner's secure Google-session configuration. Do not mark the full integration complete until a real authorized profile test passes.
+
+## 2026-09-28 15:59 UTC — Railway attached and connection prepared
+
+- Railway discovery found zero projects. Created private project `90dd949d-a59e-4a61-b35b-ca10f6d0dfaf`, production environment `cb05a9f4-0fc2-4400-9c3b-00fc120021e5`, and empty service `9b7fa99e-ca30-4503-b968-399be797cc5a` (`ghunt-backend`). No backend deployment was started.
+- Set a random shared server key and exact owner-address allowlist in Railway service variables, with deployment skipped. Reserved `https://ghunt-backend-production.up.railway.app` on port 8080. No secret value or owner email was added to source.
+- Saved the matching URL and secret in Sites runtime environment revision 1. Republished version 3; deployment `appgdep_6aba8ec149a481918602f1f5afa7e879` succeeded at `2026-09-28T15:59:14.669038+00:00`. Access remains owner-private.
+- Saved Dockerfile, health check, sleep mode, and one-replica service settings. Staged source `advantageosmain-sudo/GHunt`, branch `master`. Corrected an initial repository spelling error from the Railway agent and verified the exact source through the configuration readback. Patch `2cb04761-cb28-41e5-82b6-a2181b1c3642` remains STAGED; latestDeployment is null.
+- Railway rejects Config as Code for new services. Removed obsolete `railway.json`, updated workflow paths, and documented direct service settings using current Railway documentation.
+- Account inspection reports effective Hobby limits with $5 included usage, but cannot expose remaining credits, trial, payment, or subscription records. This does not establish free operation. Backend compute is paused pending the owner's spending decision or a verified free-credit boundary.
+- Remaining: approve runtime spending or verify free credits; apply the staged source and verify GitHub access and deployment; owner supplies `GHUNT_CREDENTIALS_B64` directly in Railway; verify the authenticated connection and an authorized profile request. No full-profile or personal-account test was performed.

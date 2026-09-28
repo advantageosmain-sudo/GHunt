@@ -12,7 +12,7 @@
   "siteUrl": "https://ghunt-project-guide.mshipe2022.chatgpt.site",
   "environmentVariables": ["GHUNT_BACKEND_URL", "GHUNT_BACKEND_KEY"],
   "status": "DEPLOYMENT_BLOCKED",
-  "capabilities": {"googleRegistrationSignal": true, "authenticatedProfileLookup": "implemented_but_not_connected"},
-  "backend": {"provider": "Railway", "sourceDirectory": "backend", "healthcheck": "/health", "connectionStatus": "not_configured", "blockedBy": ["Railway account actions unavailable in this conversation", "Google GHunt session not configured"]},
+  "capabilities": {"googleRegistrationSignal": true, "authenticatedProfileLookup": "configured_awaiting_backend_deployment_and_session"},
+  "backend": {"provider": "Railway", "sourceDirectory": "backend", "healthcheck": "/health", "projectId": "90dd949d-a59e-4a61-b35b-ca10f6d0dfaf", "environmentId": "cb05a9f4-0fc2-4400-9c3b-00fc120021e5", "serviceId": "9b7fa99e-ca30-4503-b968-399be797cc5a", "origin": "https://ghunt-backend-production.up.railway.app", "connectionStatus": "source_staged_no_deployment", "blockedBy": ["Railway spending approval or verified free credit boundary", "Google GHunt session not configured"]},
   "validationLimitations": ["Browser visual QA unavailable", "WebMCP execution validation unavailable", "No personal email addresses used for live testing"]
 }

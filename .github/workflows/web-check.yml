@@ -1,9 +1,9 @@
 name: Web check
 on:
   push:
-    paths: ['web/**', 'backend/**', 'Dockerfile', 'railway.json', '.github/workflows/web-check.yml']
+    paths: ['web/**', 'backend/**', 'Dockerfile', '.github/workflows/web-check.yml']
   pull_request:
-    paths: ['web/**', 'backend/**', 'Dockerfile', 'railway.json', '.github/workflows/web-check.yml']
+    paths: ['web/**', 'backend/**', 'Dockerfile', '.github/workflows/web-check.yml']
 permissions:
   contents: read
 jobs:
