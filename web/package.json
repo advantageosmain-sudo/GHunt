@@ -1,0 +1,1 @@
+{"name":"ghunt-email-workspace","private":true,"type":"module","scripts":{"build":"node build.mjs","test":"node --test test-worker.mjs"},"engines":{"node":">=22"}}

@@ -11,6 +11,10 @@
 
 # 😊 Description
 
+## Private browser workspace (this fork)
+
+This fork also includes a [private Google email check](https://ghunt-project-guide.mshipe2022.chatgpt.site), with canonical source and maintenance instructions in [web/README.md](web/README.md). It implements GHunt's basic registration signal. Full authenticated profile searches remain part of the Python CLI described below.
+
 GHunt (v2) is an offensive Google framework, designed to evolve efficiently.\
 It's currently focused on OSINT, but any use related with Google is possible.
 

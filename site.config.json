@@ -1,0 +1,17 @@
+{
+  "siteName": "GHunt Google email check",
+  "siteType": "private email registration checker",
+  "framework": "Cloudflare Worker ESM and native HTML/CSS/JavaScript",
+  "sourceDirectory": "web",
+  "buildCommand": "node web/build.mjs",
+  "devCommand": null,
+  "outputDirectory": "web/dist",
+  "pages": ["/"],
+  "contentSources": ["ghunt/helpers/gmail.py", "ghunt/modules/email.py", "README.md"],
+  "deploymentTarget": "ChatGPT Sites (existing owner-private Site)",
+  "siteUrl": "https://ghunt-project-guide.mshipe2022.chatgpt.site",
+  "environmentVariables": [],
+  "status": "DEPLOYMENT_READY",
+  "capabilities": {"googleRegistrationSignal": true, "authenticatedProfileLookup": false},
+  "validationLimitations": ["Browser visual QA unavailable", "WebMCP execution validation unavailable", "No personal email addresses used for live testing"]
+}
