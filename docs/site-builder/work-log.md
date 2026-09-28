@@ -50,3 +50,12 @@
 - Railway rejects Config as Code for new services. Removed obsolete `railway.json`, updated workflow paths, and documented direct service settings using current Railway documentation.
 - Account inspection reports effective Hobby limits with $5 included usage, but cannot expose remaining credits, trial, payment, or subscription records. This does not establish free operation. Backend compute is paused pending the owner's spending decision or a verified free-credit boundary.
 - Remaining: approve runtime spending or verify free credits; apply the staged source and verify GitHub access and deployment; owner supplies `GHUNT_CREDENTIALS_B64` directly in Railway; verify the authenticated connection and an authorized profile request. No full-profile or personal-account test was performed.
+
+## 2026-09-28 11:28 America/Chicago / 16:28 UTC — Approved backend startup
+
+- Owner replied `Yes` at 11:24 America/Chicago to starting the backend on the existing Railway Hobby plan. Applied only the inspected GHunt staged patch; no plan upgrade, new project, or new service was created.
+- Railway deployment `88624d3b-4aca-43a0-adf5-a8ba2988cb5d` built `master` commit `d5f74f7a5f6b4163a2ae3298f54c4e531672fa86` and reached SUCCESS at `2026-09-28T16:26:00.032Z`. GitHub access, Docker build, startup, one replica, port 8080, and Railway health check are verified.
+- Direct live HTTP checks returned `/health` 200 with status `running` at 16:26:34 UTC and unauthenticated `/v1/status` 401 at 16:26:42 UTC. Railway request logs corroborate both results. The public API remains bearer-protected.
+- Existing Site version 3 and runtime revision 1 remain deployed and owner-private. The supported dispatcher-token request to `/api/status` returned 401 because it lacked a signed-in owner identity. Auth enforcement was preserved. Railway OAuth redacts API-key values; a read-only provider diagnostic also could not inherit runtime secrets. Authenticated end-to-end validation is therefore pending, not claimed successful.
+- `GHUNT_CREDENTIALS_B64` is not present. No personal email address was tested and no Google session was supplied. The owner must open the private Site, refresh the connection, and complete the secure session setup in `backend/README.md` before a real authorized profile test. Do not request credentials in chat.
+- PR #3's prior Web check run `36447924428` passed before merge. This follow-up only updates current status and the operational record; no runtime code is changed.

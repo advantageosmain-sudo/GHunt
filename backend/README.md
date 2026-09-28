@@ -2,17 +2,17 @@
 
 ## Current connection status
 
-The private Site and basic Google registration check are live. The Railway project and empty `ghunt-backend` service now exist. The shared server key, exact-address allowlist, domain, Docker settings, and Sites runtime variables are saved. GitHub source `advantageosmain-sudo/GHunt`, branch `master`, is staged. Backend compute has not been started: Railway reports Hobby plan limits but cannot expose the account's remaining credits through the connected tools. Deployment awaits the owner's spending decision. The owner must also add a Google GHunt session directly in Railway. No full-profile live test has been performed.
+The private Site, basic Google registration check, and Railway `ghunt-backend` server are live. The owner approved backend startup on the existing Railway Hobby plan on September 28, 2026 at 11:24 America/Chicago. Deployment `88624d3b-4aca-43a0-adf5-a8ba2988cb5d` succeeded at 16:26 UTC from GitHub commit `d5f74f7a5f6b4163a2ae3298f54c4e531672fa86`. The health endpoint returned HTTP 200, and an unauthenticated API request correctly returned HTTP 401. The Google session is still absent. Full-profile operation has not been validated.
 
 Reuse the existing resources; do not create another project or service:
 
 - Railway project: `90dd949d-a59e-4a61-b35b-ca10f6d0dfaf`
 - Environment: `cb05a9f4-0fc2-4400-9c3b-00fc120021e5` (`production`)
 - Service: `9b7fa99e-ca30-4503-b968-399be797cc5a` (`ghunt-backend`)
-- Reserved backend origin: `https://ghunt-backend-production.up.railway.app`
+- Live backend origin: `https://ghunt-backend-production.up.railway.app`
 - Private Site: https://ghunt-project-guide.mshipe2022.chatgpt.site
 
-The backend domain is reserved, but an empty service does not serve requests. Sites version 3 has been republished with runtime environment revision 1. The shared key is stored as a secret in Sites and in Railway service variables, never in this repository. Check actual deployment and session status before marking the full profile connection complete.
+Sites version 3 uses runtime environment revision 1, with the backend origin and matching shared key saved. The key is stored as a secret in Sites and in Railway service variables, never in this repository. Automated Site status testing could not obtain a signed-in owner identity: the dispatcher accepted the supported Site token but the application correctly returned HTTP 401 without its authenticated-user header. Railway OAuth also withholds secret values, so direct authenticated API validation was not possible. Do not weaken authentication or ask the owner to send secrets in chat to test this. The next owner action is to open the private Site and select **Refresh connection**, then complete the Google-session steps below. Full-profile readiness remains unverified until a real authorized request succeeds.
 
 ## Deployment configuration
 
@@ -31,7 +31,7 @@ The backend domain is reserved, but an empty service does not serve requests. Si
 
 Railway rejects `railway.json` / `railway.toml` for new services as of this setup. This repository therefore uses the explicit service settings above, saved through the Railway connector. Do not reintroduce the deprecated configuration file. If configuration later needs to be managed in source, use Railway's current Infrastructure as Code workflow and review its plan before applying.
 
-Before the first backend deployment, inspect the staged source and confirm the exact repository spelling above. Applying staged environment changes starts compute; do that only after the spending decision. Source installation access and automatic deployment behavior remain to be verified when applying the first deployment.
+GitHub source access and the Docker deployment are verified. Keep the existing source and service. The September 28 startup approval covers running this backend on the existing plan; it does not authorize upgrades, new paid products, or unrelated spending. Account credit balances remain unavailable through the connected tools. Sleep mode is enabled, but this is not a spending cap.
 
 The `/health` response proves the server is running, not that Google authentication works. `/v1/status` requires the backend bearer key and returns one of `api_key_missing`, `allowlist_missing`, `google_session_required`, or `configured`. `configured` means session material has the expected shape, not that Google has accepted it.
 
