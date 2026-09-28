@@ -1,9 +1,9 @@
 name: Web check
 on:
   push:
-    paths: ['web/**', '.github/workflows/web-check.yml']
+    paths: ['web/**', 'backend/**', 'Dockerfile', 'railway.json', '.github/workflows/web-check.yml']
   pull_request:
-    paths: ['web/**', '.github/workflows/web-check.yml']
+    paths: ['web/**', 'backend/**', 'Dockerfile', 'railway.json', '.github/workflows/web-check.yml']
 permissions:
   contents: read
 jobs:
@@ -18,3 +18,9 @@ jobs:
       - run: node --test web/test-worker.mjs
       - run: node web/build.mjs
       - run: node --check web/dist/server/index.js
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest backend.test_app -v
+      - run: python -m compileall -q backend
+      - run: docker build -t ghunt-backend-validation .

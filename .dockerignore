@@ -1,0 +1,11 @@
+.git
+.env
+.env.*
+**/creds.m
+**/__pycache__
+**/*.pyc
+web
+docs
+assets
+tests
+.github

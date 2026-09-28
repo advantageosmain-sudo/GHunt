@@ -10,8 +10,9 @@
   "contentSources": ["ghunt/helpers/gmail.py", "ghunt/modules/email.py", "README.md"],
   "deploymentTarget": "ChatGPT Sites (existing owner-private Site)",
   "siteUrl": "https://ghunt-project-guide.mshipe2022.chatgpt.site",
-  "environmentVariables": [],
-  "status": "DEPLOYMENT_READY",
-  "capabilities": {"googleRegistrationSignal": true, "authenticatedProfileLookup": false},
+  "environmentVariables": ["GHUNT_BACKEND_URL", "GHUNT_BACKEND_KEY"],
+  "status": "DEPLOYMENT_BLOCKED",
+  "capabilities": {"googleRegistrationSignal": true, "authenticatedProfileLookup": "implemented_but_not_connected"},
+  "backend": {"provider": "Railway", "sourceDirectory": "backend", "healthcheck": "/health", "connectionStatus": "not_configured", "blockedBy": ["Railway account actions unavailable in this conversation", "Google GHunt session not configured"]},
   "validationLimitations": ["Browser visual QA unavailable", "WebMCP execution validation unavailable", "No personal email addresses used for live testing"]
 }

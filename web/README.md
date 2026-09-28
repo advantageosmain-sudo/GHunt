@@ -15,7 +15,7 @@ No API key, Google cookies, payment account, or app installation is required for
 
 ## Capability limits
 
-This is the basic registration check, not the authenticated GHunt email-profile module. Names, profile photos, Maps, Calendar, geolocation, and other profile searches are not implemented in this web app. The upstream profile module needs an authenticated Google session and a Python runtime. Do not ask users to paste Google cookies into the site or chat.
+The basic registration check works without a separate backend. The full email-profile flow now has a protected Railway backend and Site proxy, but it remains disabled until that backend and an authenticated GHunt session are configured. The interface shows connection status and exposes returned Google profile, Maps, Calendar, and Play Games sections after a successful profile request. See `backend/README.md` in the canonical repository for connection steps. Do not ask users to paste Google cookies into the site or chat.
 
 Only a 204 response is interpreted as a registration signal. Redirects, blocking, rate limits, other response codes, and timeouts return an unavailable result. Presence of `Set-Cookie` is a heuristic inherited from GHunt; this is not an official verification API and may change. No-signal results remain explicitly inconclusive.
 
@@ -32,13 +32,13 @@ node --check web/dist/server/index.js
 
 `build.mjs` creates one ESM Worker with a default object exporting `fetch`. The Worker embeds the HTML, CSS, JavaScript, and license, so no asset binding is needed. The web build does not modify the Python package.
 
-Routes: `GET /`, `GET /app.js`, `GET /style.css`, `GET /license.txt`, `GET /api/status`, and `POST /api/lookup`. The POST body is `{ "email": "test@example.invalid", "permitted": true }`.
+Routes: `GET /`, `GET /app.js`, `GET /style.css`, `GET /license.txt`, `GET /api/status`, `POST /api/lookup`, and `POST /api/profile`. The POST body is `{ "email": "test@example.invalid", "permitted": true }`. The profile endpoint additionally requires a configured backend and an address on its allowlist.
 
 ## Authentication and security
 
 Private Sites access restricts viewers to the owner. Every route also requires the trusted dispatcher header `oai-authenticated-user-id`. These headers are trusted only behind the Sites dispatcher; do not expose this handler directly on an unauthenticated server. POST checks the exact site origin, JSON content type, 1024-byte request bound, email syntax, and the permission acknowledgement. Cookie headers from Google are never forwarded. The ten-second per-isolate backoff is best effort, not a globally durable rate limit. No public deployment is supported by this configuration.
 
-Runtime credentials and environment variables: none. `SITE_ORIGIN` must match the exact registered Site URL; update it if the origin changes.
+Basic-check runtime variables: none. The profile proxy uses `GHUNT_BACKEND_URL` and secret `GHUNT_BACKEND_KEY`. Only HTTPS Railway origins are accepted. `SITE_ORIGIN` must match the exact registered Site URL; update it if the origin changes.
 
 ## Publishing to the existing private Site
 
