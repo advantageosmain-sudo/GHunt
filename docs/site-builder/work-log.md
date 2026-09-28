@@ -31,3 +31,12 @@
 - Added result sections for the email module's Google profile, Play Games, Maps, and Calendar output. Profile searches remain disabled until runtime configuration is present.
 - Validation: 10 Worker tests and 7 Python backend tests pass; JavaScript syntax and build pass; Python dependencies installed in an isolated environment; GHunt profile imports pass; actual Gunicorn HTTP health and authenticated missing-session status pass. No personal account or Google session was used for testing. Docker validation is delegated to repository CI because Docker is unavailable locally.
 - Remaining external actions: attach Railway to the conversation so its projects/services can be inspected, configure the shared backend secret and approved addresses, and have the owner supply a GHunt session directly to Railway's secret field. See backend/README.md.
+
+## 2026-09-28 10:51 America/Chicago / 15:51 UTC
+
+- CI run `36446501329` passed all checks, including the Railway Docker image build, for head `4ca9999402ec834a6bf788dcb1cb6441a2a9f5a2`.
+- Merged PR #2 as `eaeab3b6303189d0440dbb7a24235309cbe48a4c`.
+- Published the existing private Site as version 3 from hosting source `1d40948e995a80098f217127cec75ef5dd815dfd`.
+- Deployment `appgdep_6aba8cce95848191a1df419723f07eff` succeeded at 2026-09-28T15:50:46Z. Live URL: https://ghunt-project-guide.mshipe2022.chatgpt.site.
+- Production environment revision remains 0: no backend URL, shared secret, or Google session has been configured. Full profile searches are therefore disabled and explicitly shown as not connected. Basic lookup remains available.
+- External blocker remains Railway account access in this conversation, followed by the owner's secure Google-session configuration. Do not mark the full integration complete until a real authorized profile test passes.
