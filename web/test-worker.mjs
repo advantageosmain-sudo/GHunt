@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createHandler, validEmail, checkEmail, SITE_ORIGIN} from './worker.mjs';
+import {createHandler, validEmail, checkEmail, backendConfig, SITE_ORIGIN} from './worker.mjs';
 const sample = 'test@example.invalid';
 function request(data = {email: sample, permitted: true}, extra = {}) {
   return new Request(SITE_ORIGIN + '/api/lookup', {method: 'POST', headers: {'oai-authenticated-user-id': 'test-user', Origin: SITE_ORIGIN, 'Content-Type': 'application/json', ...extra}, body: JSON.stringify(data)});
@@ -57,4 +57,31 @@ test('authenticated pages, missing paths and API status', async () => {
   assert.equal((await handler(get('/'))).status, 200);
   assert.equal((await handler(get('/missing'))).status, 404);
   assert.equal((await (await handler(get('/api/status'))).json()).mode, 'google-registration');
+});
+test('profile connection rejects missing credentials and non-Railway targets', async () => {
+  assert.equal(backendConfig({}), null);
+  assert.equal(backendConfig({GHUNT_BACKEND_URL: 'https://attacker.example/', GHUNT_BACKEND_KEY: 'x'.repeat(40)}), null);
+  assert.equal(backendConfig({GHUNT_BACKEND_URL: 'https://example.up.railway.app/redirect', GHUNT_BACKEND_KEY: 'x'.repeat(40)}), null);
+  const handler = createHandler();
+  const profileRequest = new Request(SITE_ORIGIN + '/api/profile', {method: 'POST', headers: {'oai-authenticated-user-id': 'test-user', Origin: SITE_ORIGIN, 'Content-Type': 'application/json'}, body: JSON.stringify({email: sample, permitted: true})});
+  assert.equal((await handler(profileRequest)).status, 503);
+});
+test('profile proxy sends the server secret only to the configured backend', async () => {
+  const env = {GHUNT_BACKEND_URL: 'https://example.up.railway.app', GHUNT_BACKEND_KEY: 'x'.repeat(40)};
+  let called;
+  const handler = createHandler({fetcher: async (...args) => {called = args; return Response.json({profile: {profile: {personId: 'fixture'}}});}});
+  const profileRequest = new Request(SITE_ORIGIN + '/api/profile', {method: 'POST', headers: {'oai-authenticated-user-id': 'test-user', Origin: SITE_ORIGIN, 'Content-Type': 'application/json'}, body: JSON.stringify({email: sample, permitted: true})});
+  const result = await handler(profileRequest, env);
+  assert.equal(result.status, 200);
+  assert.equal(called[0], env.GHUNT_BACKEND_URL + '/v1/profile');
+  assert.equal(called[1].headers.Authorization, 'Bearer ' + env.GHUNT_BACKEND_KEY);
+  assert.equal((await result.text()).includes(env.GHUNT_BACKEND_KEY), false);
+});
+test('backend status reports missing session without leaking configuration', async () => {
+  const env = {GHUNT_BACKEND_URL: 'https://example.up.railway.app', GHUNT_BACKEND_KEY: 'x'.repeat(40)};
+  const handler = createHandler({fetcher: async () => Response.json({state: 'google_session_required'})});
+  const result = await handler(new Request(SITE_ORIGIN + '/api/status', {headers: {'oai-authenticated-user-id':'test-user'}}), env);
+  const data = await result.json();
+  assert.equal(data.profileSearch, 'google_session_required');
+  assert.equal(JSON.stringify(data).includes(env.GHUNT_BACKEND_KEY), false);
 });
